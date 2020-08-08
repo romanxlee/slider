@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Slider - Colorpicker</title>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <style>
+  #red, #green, #blue {
+    float: left;
+    clear: left;
+    width: 300px;
+    margin: 15px;
+  }
+  #swatch {
+    width: 120px;
+    height: 100px;
+    margin-top: 18px;
+    margin-left: 350px;
+    background-image: none;
+  }
+  #red .ui-slider-range { background: #ef2929; }
+  #red .ui-slider-handle { border-color: #ef2929; }
+  #green .ui-slider-range { background: #8ae234; }
+  #green .ui-slider-handle { border-color: #8ae234; }
+  #blue .ui-slider-range { background: #729fcf; }
+  #blue .ui-slider-handle { border-color: #729fcf; }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+        $( function() {
+    $( "#tabs" ).tabs();
+  } );
+  
+  $( function() {
+    function hexFromRGB(r, g, b) {
+      var hex = [
+        r.toString( 16 ),
+        g.toString( 16 ),
+        b.toString( 16 )
+      ];
+      $.each( hex, function( nr, val ) {
+        if ( val.length === 1 ) {
+          hex[ nr ] = "0" + val;
+        }
+      });
+      return hex.join( "" ).toUpperCase();
+    }
+    function refreshSwatch() {
+      var red = $( "#red" ).slider( "value" ),
+        green = $( "#green" ).slider( "value" ),
+        blue = $( "#blue" ).slider( "value" ),
+        hex = hexFromRGB( red, green, blue );
+      $( "#swatch" ).css( "background-color", "#" + hex );
+    }
+
+    function refreshText() {
+        var red = $( "#red" ).slider( "value" ),
+        green = $( "#green" ).slider( "value" ),
+        blue = $( "#blue" ).slider( "value" ),
+        hex = hexFromRGB( red, green, blue );
+      $( "#text" ).css( "color", "#" + hex );
+    }
+
+    function selection() {
+        if (document.querySelector("#colorButton").classList.contains('ui-state-active')) {
+        refreshText();
+    } else if  (document.querySelector("#backgroundButton").classList.contains('ui-state-active')) {
+        refreshSwatch();
+    }
+    }
+
+    $( "#red, #green, #blue" ).slider({
+      orientation: "horizontal",
+      range: "min",
+      max: 255,
+      value: 127,
+      slide: selection,
+      change: selection
+    });
+
+
+
+
+    $( "#red" ).slider( "value", 255 );
+    $( "#green" ).slider( "value", 140 );
+    $( "#blue" ).slider( "value", 60 );
+  } );
+
+
+
+
+  </script>
+</head>
+<body class="ui-widget-content" style="border:0;">
+ 
+
+<div id="tabs">
+    <ul>
+      <li id="colorButton"><a href="#tabs-1">Color</a></li>
+      <li id="backgroundButton"><a href="#tabs-2">Background Color</a></li>
+    </ul>
+    <div id="tabs-1">
+    </div>
+    <div id="tabs-2">
+    </div>
+  </div>
+ 
+  <div id="red"></div>
+  <div id="green"></div>
+  <div id="blue"></div>
+ 
+<div id="swatch" class="ui-widget-content ui-corner-all">
+    <p id="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+</div>
+ 
+ 
+</body>
+</html>
